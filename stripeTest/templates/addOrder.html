@@ -1,0 +1,89 @@
+{% load static %}
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Оформление</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"></script>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="shortcut icon" href="{% static 'img/icons.ico' %}" type="image/x-icon">
+</head>
+<body>
+<script>
+    window.onload = function () {
+        document.body.classList.add('loaded_hiding');
+        window.setTimeout(function () {
+            document.body.classList.add('loaded');
+            document.body.classList.remove('loaded_hiding');
+        }, 500);
+    }
+</script>
+<div class="preloader">
+    <div class="preloader__row">
+        <div class="preloader__item"></div>
+        <div class="preloader__item"></div>
+    </div>
+</div>
+
+<section class="section">
+    <div class="container">
+        <h1 class="title4">Оформление заказа</h1>
+        <img src="{% static 'img/2.png' %}" alt="">
+    </div>
+    <div class="container">
+        <form action="" method="post" >
+            {% csrf_token %}
+            <select class="items-select" multiple name="items" required>
+                 {% for item in items %}
+                     <option>{{ item }}</option>
+                {% endfor %}
+            </select>
+            <select name="currency" required>
+                <option value="" disabled selected hidden>Валюта</option>
+                <option>BYN</option>
+                <option>USD</option>
+            </select>
+            <select name="discounts" required>
+                <option value="" disabled selected hidden>Выберите процент скидки</option>
+                 {% for discount in discounts %}
+                    <option>{{ discount }}</option>
+                 {% endfor %}
+            </select>
+             <select name="tax" required>
+                <option value="" disabled selected hidden>Выберите налог</option>
+                 {% for tax in taxs %}
+                    <option>{{ tax }}</option>
+                 {% endfor %}
+            </select>
+            <input type="submit" class="button button-add is-primary" value="Добавить">
+        </form>
+        {% for message in messages %}
+            <span class="error-msg">{{ message }}</span>
+        {% endfor %}
+    </div>
+</section>
+
+<script>
+    (function () {
+
+        'use strict';
+
+        $('.input-file').each(function () {
+            var $input = $(this),
+                $label = $input.next('.js-labelFile'),
+                labelVal = $label.html();
+
+            $input.on('change', function (element) {
+                var fileName = '';
+                if (element.target.value) fileName = element.target.value.split('\\').pop();
+                fileName ? $label.addClass('has-file').find('.js-fileName').html(fileName) : $label.removeClass('has-file').html(labelVal);
+            });
+        });
+
+    })();
+</script>
+
+
+</body>
+</html>
